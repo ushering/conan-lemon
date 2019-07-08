@@ -3,6 +3,7 @@
 
 from conans import ConanFile, CMake, tools
 import os
+import shutil
 
 class LemonConan(ConanFile):
     name = "lemon"
@@ -13,17 +14,21 @@ class LemonConan(ConanFile):
     homepage = "https://lemon.cs.elte.hu/trac/lemon"
     description = "LEMON stands for Library for Efficient Modeling and Optimization in Networks. It is a C++ template library providing efficient implementations of common data structures and algorithms with focus on combinatorial optimization tasks connected mainly with graphs and networks."
     settings = "os", "compiler", "build_type", "arch"
-    source_subfolder = "source_subfolder"
+    exports = "file.patch"
+    _source_subfolder = "source_subfolder"
+
 
     def source(self):
         source_url = "http://lemon.cs.elte.hu/pub/sources/lemon-{}.tar.gz".format(self.version)
-        tools.get(source_url)
+        tools.get(source_url, sha256="71b7c725f4c0b4a8ccb92eb87b208701586cf7a96156ebd821ca3ed855bad3c8")
         extracted_dir = self.name + "-" + self.version
-        os.rename(extracted_dir, self.source_subfolder)
+        os.rename(extracted_dir, self._source_subfolder)
+        tools.patch(base_path=self._source_subfolder, patch_file="file.patch")
 
     def _configure_cmake(self):
         cmake = CMake(self)
-        cmake.configure(source_folder=self.source_subfolder)
+        cmake.definitions["BUILD_SHARED_LIBS"]="FALSE"
+        cmake.configure(source_folder=self._source_subfolder)
         return cmake
 
     def build(self):

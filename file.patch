@@ -1,0 +1,18 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 03e1cc7..e14ea47 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -255,13 +255,6 @@ ELSE()
+ ENDIF()
+ 
+ ADD_SUBDIRECTORY(lemon)
+-IF(${CMAKE_SOURCE_DIR} STREQUAL ${PROJECT_SOURCE_DIR})
+-  ADD_SUBDIRECTORY(contrib)
+-  ADD_SUBDIRECTORY(demo)
+-  ADD_SUBDIRECTORY(tools)
+-  ADD_SUBDIRECTORY(doc)
+-  ADD_SUBDIRECTORY(test)
+-ENDIF()
+ 
+ CONFIGURE_FILE(
+   ${PROJECT_SOURCE_DIR}/cmake/LEMONConfig.cmake.in
