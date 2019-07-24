@@ -7,7 +7,7 @@ import shutil
 
 class LemonConan(ConanFile):
     name = "lemon"
-    version = "1.3.1"
+    version = "1.3.1_src"
     url = "https://github.com/ushering/conan-lemon"
     license = "Boost Software License"
     author = "Ruisheng Wang <ruisheng.wang@outlook.com>"
@@ -16,9 +16,10 @@ class LemonConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     exports = "file.patch"
     _source_subfolder = "source_subfolder"
+    exports_sources = os.path.join(_source_subfolder, '*')
 
 
-    def source(self):
+    def _source(self):
         source_url = "http://lemon.cs.elte.hu/pub/sources/lemon-{}.tar.gz".format(self.version)
         tools.get(source_url, sha256="71b7c725f4c0b4a8ccb92eb87b208701586cf7a96156ebd821ca3ed855bad3c8")
         extracted_dir = self.name + "-" + self.version
